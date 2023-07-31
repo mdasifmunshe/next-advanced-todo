@@ -1,12 +1,23 @@
-import Posts from "@/components/Post/Posts"
+import Todos from "@/components/Todo/Todos"
+import AddTodoModal from "@/components/Popover/AddTodoModal"
 import { getAllTodos } from "@/lib/todo"
 
 export default async function Dashboard() {
-  const todoData = getAllTodos()
+  const initialData = await getAllTodos()
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-12">
-      <Posts props={todoData} />
-    </main>
+    <>
+      <div className="mb-8 sm:flex sm:items-center sm:justify-end">
+        {/* Action Button */}
+        <div className="grid grid-flow-col justify-end sm:auto-cols-max">
+          {/* Add todo button */}
+          <AddTodoModal />
+        </div>
+      </div>
+      {/* Todo Cards */}
+      <div className="grid grid-cols-12 gap-6">
+        <Todos todos={initialData} />
+      </div>
+    </>
   )
 }

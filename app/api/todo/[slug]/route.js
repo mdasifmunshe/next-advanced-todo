@@ -2,9 +2,8 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // Read
-export async function GET(request) {
-  const { pathname } = new URL(request.url);
-  const id = pathname.split('/')[3];
+export async function GET(request, { params: { slug } }) {
+  const id = slug;
 
   try {
     const todoById = await prisma.todo.findUnique({
@@ -18,9 +17,8 @@ export async function GET(request) {
 }
 
 // Update
-export async function PUT(request) {
-  const { pathname } = new URL(request.url);
-  const id = pathname.split('/')[3];
+export async function PUT(request, { params }) {
+  const id = params.slug;
   const { title, description } = await request.json();
 
   try {
@@ -36,9 +34,8 @@ export async function PUT(request) {
 }
 
 // Delete
-export async function DELETE(request) {
-  const { pathname } = new URL(request.url);
-  const id = pathname.split('/')[3];
+export async function DELETE(request, { params }) {
+  const id = params.slug;
 
   try {
     const deletedTodo = await prisma.todo.delete({
