@@ -1,6 +1,10 @@
+'use client'
+
+import { useState } from "react"
 import UserModal from "../Popover/UserModal"
 
 export default function Header() {
+    const [sidebarOpen, setSidebarOpen] = useState(false)
     return (
         <header className="sticky top-0 z-30 border-b border-slate-200 bg-white">
             <div className="px-4 sm:px-6 lg:px-8">
@@ -11,6 +15,11 @@ export default function Header() {
                         <button
                             className="text-slate-500 hover:text-slate-600 lg:hidden"
                             aria-controls="sidebar"
+                            aria-expanded={sidebarOpen}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                setSidebarOpen(!sidebarOpen)
+                            }}
                         >
                             <span className="sr-only">Open sidebar</span>
                             <svg

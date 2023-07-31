@@ -7,7 +7,7 @@ export default async function Dashboard() {
 
   return (
     <>
-      <div className="mb-8 sm:flex sm:items-center sm:justify-end">
+      <div className="mb-4 lg:mb-8 sm:flex sm:items-center sm:justify-end">
         {/* Action Button */}
         <div className="grid grid-flow-col justify-end sm:auto-cols-max">
           {/* Add todo button */}

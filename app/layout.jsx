@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
               {/*  Header */}
               <Header />
               <main>
-                <div className="mx-auto w-full max-w-9xl px-4 pb-8 pt-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-9xl px-2 pb-8 pt-4 sm:px-6 lg:px-8">
                   {children}
                 </div>
               </main>
