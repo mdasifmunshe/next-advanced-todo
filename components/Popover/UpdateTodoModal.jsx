@@ -7,19 +7,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addTodo } from "@/lib/todo";
+import { updateTodo } from "@/lib/todo";
 
-export default function AddTodoModal() {
+export default function UpdateTodoModal({ id, title, description }) {
     const [isOpen, setIsOpen] = useState(false)
-    const [textarea, setTextarea] = useState('')
 
     const closeModal = () => setIsOpen(false)
 
     const openModal = () => setIsOpen(true)
-
-    const handleChange = (event) => {
-        setTextarea(event.target.value)
-    }
 
     const schema = yup.object().shape({
         title: yup.string().required(),
@@ -31,7 +26,7 @@ export default function AddTodoModal() {
 
     const queryClient = useQueryClient()
     const { mutate } = useMutation({
-        mutationFn: (data) => addTodo(data),
+        mutationFn: (data) => updateTodo(data),
         onSuccess: () => {
             queryClient.invalidateQueries(['todos']), reset()
         },
@@ -43,15 +38,12 @@ export default function AddTodoModal() {
             <button
                 type="button"
                 onClick={openModal}
-                className="btn bg-indigo-500 text-white hover:bg-indigo-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-800 focus-visible:ring-opacity-75"
+                className={`flex items-center h-full justify-center rounded-md text-sm`}
             >
-                <svg
-                    className="h-4 w-4 shrink-0 fill-current opacity-50"
-                    viewBox="0 0 16 16"
-                >
-                    <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                </svg>
-                <span className="ml-2 block">Add Todo</span>
+                <EditInactiveIcon
+                    className="mr-2 h-6 w-6"
+                    aria-hidden="true"
+                />
             </button>
 
             <Transition appear show={isOpen} as={Fragment}>
@@ -84,7 +76,7 @@ export default function AddTodoModal() {
                                         as="h3"
                                         className="text-center text-lg font-medium leading-6 text-gray-900"
                                     >
-                                        Add Todo
+                                        Update Todo
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <form onSubmit={handleSubmit(mutate)} className="mb-0 rounded bg-white shadow-md px-6 pb-4 pt-4 md:px-8 md:pb-4 md:pt-6 md:mb-4">
@@ -97,6 +89,7 @@ export default function AddTodoModal() {
                                                 </label>
                                                 <input
                                                     {...register("title")}
+                                                    defaultValue={title}
                                                     className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-black shadow focus:outline-none"
                                                     id="title"
                                                     type="text"
@@ -113,12 +106,11 @@ export default function AddTodoModal() {
                                                 </label>
                                                 <textarea
                                                     {...register("description")}
-                                                    value={textarea}
+                                                    defaultValue={description}
                                                     className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-black shadow focus:outline-none"
                                                     id="description"
                                                     rows={8}
                                                     placeholder="Description"
-                                                    onChange={handleChange}
                                                 />
                                             </div>
 
@@ -129,7 +121,7 @@ export default function AddTodoModal() {
                                                     onClick={closeModal}
                                                 >
                                                     <XMarkIcon className="h-4 w-4" />
-                                                    Close
+                                                    Discard
                                                 </button>
                                                 <button
                                                     type="submit"
@@ -137,7 +129,7 @@ export default function AddTodoModal() {
                                                     onClick={closeModal}
                                                 >
                                                     <CheckIcon className="h-4 w-4" />
-                                                    Add
+                                                    Save
                                                 </button>
                                             </div>
                                         </form>
@@ -149,5 +141,41 @@ export default function AddTodoModal() {
                 </Dialog>
             </Transition>
         </>
+    )
+}
+
+function EditActiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M4 13V16H7L16 7L13 4L4 13Z"
+                fill="#8B5CF6"
+                stroke="#C4B5FD"
+                strokeWidth="2"
+            />
+        </svg>
+    )
+}
+
+function EditInactiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M4 13V16H7L16 7L13 4L4 13Z"
+                fill="#EDE9FE"
+                stroke="#A78BFA"
+                strokeWidth="2"
+            />
+        </svg>
     )
 }

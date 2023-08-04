@@ -1,16 +1,30 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
-import { getAllTodos } from "@/lib/todo"
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid'
+import { getAllTodos, deleteTodo } from "@/lib/todo"
+import Option from './Option'
+import Error from '../Error'
 import Loading from '../Loading'
+import UpdateTodoModal from '../Popover/UpdateTodoModal'
 
 export default function Todos(props) {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['todos'],
     queryFn: getAllTodos,
     initialData: props.todos,
   })
 
+  const queryClient = useQueryClient()
+
+  const { mutate } = useMutation({
+    mutationFn: (id) => deleteTodo(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['todos'])
+    },
+  })
+
+  if (isError) return <Error />
   if (isLoading || !data) return <Loading />
 
   return data?.map((todo) => (
@@ -21,7 +35,12 @@ export default function Todos(props) {
       <div className="px-4 pb-4 pt-1">
         <header className="mb-2 flex items-start justify-end">
           {/* Menu button */}
-          {/* <Option /> */}
+          {/* <Option id={todo.id} /> */}
+          <UpdateTodoModal id={todo.id} title={todo.title} description={todo.description} />
+          <TrashIcon
+            className='h-6 w-6 hover:cursor-pointer'
+            disabled={isLoading}
+            onClick={() => mutate(todo.id)} />
         </header>
         <div className="mb-2 text-2xl font-semibold text-slate-800">
           {todo.title}
