@@ -9,6 +9,12 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateTodo } from "@/lib/todo";
 
+import axios from 'axios';
+
+const todoApi = axios.create({
+    baseURL: 'http://localhost:3000/api',
+});
+
 export default function UpdateTodoModal({ id, title, description }) {
     const [isOpen, setIsOpen] = useState(false)
 
@@ -25,10 +31,10 @@ export default function UpdateTodoModal({ id, title, description }) {
     });
 
     const queryClient = useQueryClient()
-    const { mutate } = useMutation({
-        mutationFn: (data) => updateTodo(data),
+    const { mutate, isLoading } = useMutation({
+        mutationFn: (newData) => { return updateTodo(id, newData) },
         onSuccess: () => {
-            queryClient.invalidateQueries(['todos']), reset()
+            queryClient.invalidateQueries(['todos'])
         },
         retry: 3,
     })
@@ -124,6 +130,7 @@ export default function UpdateTodoModal({ id, title, description }) {
                                                     Discard
                                                 </button>
                                                 <button
+                                                    disabled={isLoading}
                                                     type="submit"
                                                     className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                                     onClick={closeModal}
