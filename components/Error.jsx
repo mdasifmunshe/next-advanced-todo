@@ -1,9 +1,7 @@
-'use client'
+'use client';
 
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation';
 
 export default function Error() {
-    return (
-        <div>Error Component</div>
-    )
+  return <div>Error Component</div>;
 }

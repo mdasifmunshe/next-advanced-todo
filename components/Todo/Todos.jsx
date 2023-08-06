@@ -1,31 +1,34 @@
-'use client'
+'use client';
 
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
-import { TrashIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid'
-import { getAllTodos, deleteTodo } from "@/lib/todo"
-import Option from './Option'
-import Error from '../Error'
-import Loading from '../Loading'
-import UpdateTodoModal from '../Popover/UpdateTodoModal'
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import {
+  TrashIcon,
+  ArrowTopRightOnSquareIcon,
+} from '@heroicons/react/24/solid';
+import { getAllTodos, deleteTodo } from '@/lib/todo';
+import Option from './Option';
+import Error from '../Error';
+import Loading from '../Loading';
+import UpdateTodoModal from '../Popover/UpdateTodoModal';
 
 export default function Todos(props) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['todos'],
     queryFn: getAllTodos,
     initialData: props.todos,
-  })
+  });
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: (id) => deleteTodo(id),
     onSuccess: () => {
-      queryClient.invalidateQueries(['todos'])
+      queryClient.invalidateQueries(['todos']);
     },
-  })
+  });
 
-  if (isError) return <Error />
-  if (isLoading || !data) return <Loading />
+  if (isError) return <Error />;
+  if (isLoading || !data) return <Loading />;
 
   return data?.map((todo) => (
     <div
@@ -36,11 +39,16 @@ export default function Todos(props) {
         <header className="mb-2 flex items-start justify-end">
           {/* Menu button */}
           {/* <Option id={todo.id} /> */}
-          <UpdateTodoModal id={todo.id} title={todo.title} description={todo.description} />
+          <UpdateTodoModal
+            id={todo.id}
+            title={todo.title}
+            description={todo.description}
+          />
           <TrashIcon
-            className='h-6 w-6 hover:cursor-pointer'
+            className="h-6 w-6 hover:cursor-pointer"
             disabled={isLoading}
-            onClick={() => mutate(todo.id)} />
+            onClick={() => mutate(todo.id)}
+          />
         </header>
         <div className="mb-2 text-2xl font-semibold text-slate-800">
           {todo.title}
@@ -56,5 +64,5 @@ export default function Todos(props) {
         </div>
       </div>
     </div>
-  ))
+  ));
 }
