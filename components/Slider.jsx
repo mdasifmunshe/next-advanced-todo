@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useCallback } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon, Bars3BottomLeftIcon } from '@heroicons/react/24/outline'
 
@@ -11,7 +11,7 @@ export default function Slider() {
         <>
             <button
                 className="text-gray-500 rounded-md hover:bg-gray-300 lg:hidden"
-                onClick={!open ? () => setOpen(true) : () => setOpen(false)}>
+                onClick={() => setOpen(!open)}>
                 <span className="sr-only">Open sidebar</span>
                 <Bars3BottomLeftIcon className="h-6 w-6 fill-current" />
             </button>
