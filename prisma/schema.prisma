@@ -12,20 +12,12 @@ datasource db {
 
 model Todo {
   id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description String?
+  title       String   @db.VarChar(32)
   createdAt   DateTime @default(now()) @db.Timestamp(6)
   updatedAt   DateTime @updatedAt @db.Timestamp(6)
-}
-
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String?  @db.VarChar(255)
-  email     String   @unique @db.VarChar(255)
-  password  String   @db.VarChar(10)
-  Profile   Profile?
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  updatedAt DateTime @updatedAt @db.Timestamp(6)
+  description String?
+  authorId    Int
+  User        User     @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Profile {
@@ -33,4 +25,15 @@ model Profile {
   bio    String?
   userId Int     @unique
   User   User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?  @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(10)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+  Todo      Todo[]
+  Profile   Profile?
 }

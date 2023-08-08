@@ -3,11 +3,11 @@ import { prisma } from '@/lib/prisma';
 
 // Create
 export async function POST(request) {
-  const { title, description } = await request.json();
+  const { ...todo } = await request.json();
 
   try {
     const createdTodo = await prisma.todo.create({
-      data: { title, description },
+      data: { ...todo },
     });
 
     return NextResponse.json(createdTodo, { status: 201 });

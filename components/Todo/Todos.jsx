@@ -1,21 +1,19 @@
 'use client';
 
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import {
-  TrashIcon,
-  ArrowTopRightOnSquareIcon,
-} from '@heroicons/react/24/solid';
-import { getAllTodos, deleteTodo } from '@/lib/todo';
+import { TrashIcon } from '@heroicons/react/24/solid';
+import { useSession } from 'next-auth/react';
+import { todoByParam, deleteTodo } from '@/lib/todo';
 import Option from './Option';
 import Error from '../Error';
 import Loading from '../Loading';
 import UpdateTodoModal from '../Popover/UpdateTodoModal';
 
 export default function Todos(props) {
+  const param = props.user.id;
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['todos'],
-    queryFn: getAllTodos,
-    initialData: props.todos,
+    queryKey: ['todos', param],
+    queryFn: () => todoByParam(param),
   });
 
   const queryClient = useQueryClient();

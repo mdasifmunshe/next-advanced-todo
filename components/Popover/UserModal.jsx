@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/solid';
 import { UserIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { signOut } from "next-auth/react"
+import { signOut } from 'next-auth/react';
 
 export default function UserModal({ user }) {
   return (
@@ -46,7 +46,10 @@ export default function UserModal({ user }) {
                       className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
                     >
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-10 sm:w-10">
-                        <UserIcon className="h-6 w-6 text-gray-900" aria-hidden="true" />
+                        <UserIcon
+                          className="h-6 w-6 text-gray-900"
+                          aria-hidden="true"
+                        />
                       </div>
                       <div className="ml-2">
                         <p className="text-sm font-medium text-gray-900">

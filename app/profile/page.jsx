@@ -1,16 +1,17 @@
-import { authOptions } from "../api/auth/[...nextauth]/authOptions";
-import { getServerSession } from "next-auth/next";
-import { redirect } from "next/navigation"
+import { authOptions } from '../api/auth/[...nextauth]/authOptions';
+import { getServerSession } from 'next-auth/next';
+import { redirect } from 'next/navigation';
+import ProfileComp from '@/components/Profile/ProfileComp';
 
 export default async function Profile() {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   if (!session) {
-    return redirect("/api/auth/signin?callbackUrl=/server")
+    return redirect('/api/auth/signin?callbackUrl=/dashboard');
   }
   return (
     <main>
-      <div>Profile</div>
+      <ProfileComp user={session?.user} />
     </main>
   );
 }

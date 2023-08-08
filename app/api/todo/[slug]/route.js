@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // Read
-export async function GET(request, { params: { slug } }) {
-  const id = slug;
+export async function GET(request, { params }) {
+  const id = params.slug;
 
   try {
-    const todoById = await prisma.todo.findUnique({
-      where: { id: Number(id) },
+    const todoById = await prisma.todo.findMany({
+      where: { authorId: Number(id) },
     });
 
     return NextResponse.json(todoById, { status: 200 });

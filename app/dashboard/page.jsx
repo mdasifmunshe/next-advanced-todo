@@ -1,9 +1,18 @@
+import { authOptions } from '../api/auth/[...nextauth]/authOptions';
+import { getServerSession } from 'next-auth/next';
 import Todos from '@/components/Todo/Todos';
 import AddTodoModal from '@/components/Popover/AddTodoModal';
-import { getAllTodos } from '@/lib/todo';
+import { todoByParam } from '@/lib/todo';
+import { userByParam } from '@/lib/user';
 
 export default async function Dashboard() {
-  const initialData = await getAllTodos();
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return redirect('/api/auth/signin?callbackUrl=/dashboard');
+  }
+  const param = session?.user.email;
+  const user = await userByParam(param);
 
   return (
     <>
@@ -16,7 +25,8 @@ export default async function Dashboard() {
       </div>
       {/* Todo Cards */}
       <div className="grid grid-cols-12 gap-4">
-        <Todos todos={initialData} />
+        {/* <Todos todos={initialData} /> */}
+        <Todos user={user} />
       </div>
     </>
   );

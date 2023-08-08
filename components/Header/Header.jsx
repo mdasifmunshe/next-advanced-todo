@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import { useSession } from "next-auth/react"
+import { useSession } from 'next-auth/react';
 import UserModal from '../Popover/UserModal';
 import Slider from '@/components/Slider';
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export default function Header() {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect("/api/auth/signin?callbackUrl=/dashboard")
-    }
-  })
+      redirect('/api/auth/signin?callbackUrl=/dashboard');
+    },
+  });
 
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white">
