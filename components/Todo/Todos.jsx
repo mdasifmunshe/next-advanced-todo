@@ -2,7 +2,6 @@
 
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { TrashIcon } from '@heroicons/react/24/solid';
-import { useSession } from 'next-auth/react';
 import { todoByParam, deleteTodo } from '@/lib/todo';
 import Option from './Option';
 import Error from '../Error';

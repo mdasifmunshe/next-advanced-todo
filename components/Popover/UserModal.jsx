@@ -2,31 +2,24 @@
 
 import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import {
-  ChevronDownIcon,
-  ArrowRightOnRectangleIcon,
-} from '@heroicons/react/24/solid';
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
 import { UserIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
 export default function UserModal({ user }) {
   return (
-    <div className="fixed -right-2 top-3 max-w-sm px-4 sm:right-2 lg:right-4">
-      <Popover className="relative">
+    <div className="fixed -right-2 top-3 max-w-sm pr-4 sm:right-2 lg:right-4">
+      <Popover className="relative mt-1">
         {({ open }) => (
           <>
             <Popover.Button
               className={`
-                                    ${open ? '' : 'text-opacity-90'}
-                                    group inline-flex items-center rounded-md bg-indigo-700 px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75`}
+                          ${open ? '' : 'text-opacity-90'}
+                            group inline-flex items-center rounded-md bg-indigo-500 text-base font-medium text-white hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75`}
             >
-              <span>{user?.name}</span>
-              <ChevronDownIcon
-                className={`${open ? 'rotate-180 transform' : 'text-opacity-70'}
-                  ml-2 h-5 w-5 text-indigo-300 transition duration-150 ease-in-out hover:text-white group-hover:text-opacity-80`}
-                aria-hidden="true"
-              />
+              <UserCircleIcon className='h-8 w-8 fill-indigo-500' />
             </Popover.Button>
             <Transition
               as={Fragment}

@@ -9,7 +9,7 @@ export async function GET(request, { params: { slug } }) {
     const userByParam = await prisma.user.findUnique({
       where: { email: email },
       include: {
-        Todo: true,
+        todos: true,
       },
     });
 

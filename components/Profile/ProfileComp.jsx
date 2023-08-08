@@ -4,6 +4,7 @@ export default function ProfileComp({ user }) {
       <div>User Details:</div>
       <div>Name: {user?.name}</div>
       <div>Email: {user?.email}</div>
+      <div>Todos: {user?.todos.length}</div>
     </div>
   );
 }

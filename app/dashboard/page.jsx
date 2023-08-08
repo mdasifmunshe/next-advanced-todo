@@ -2,7 +2,6 @@ import { authOptions } from '../api/auth/[...nextauth]/authOptions';
 import { getServerSession } from 'next-auth/next';
 import Todos from '@/components/Todo/Todos';
 import AddTodoModal from '@/components/Popover/AddTodoModal';
-import { todoByParam } from '@/lib/todo';
 import { userByParam } from '@/lib/user';
 
 export default async function Dashboard() {

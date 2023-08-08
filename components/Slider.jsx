@@ -1,8 +1,10 @@
 'use client';
 
-import { Fragment, useState, useCallback } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import Link from 'next/link';
+import { Fragment, useState } from 'react';
+import { Dialog, Transition, Popover } from '@headlessui/react';
 import { XMarkIcon, Bars3BottomLeftIcon } from '@heroicons/react/24/outline';
+import { HomeIcon } from '@heroicons/react/24/solid';
 
 export default function Slider() {
   const [open, setOpen] = useState(false);
@@ -32,7 +34,7 @@ export default function Slider() {
 
           <div className="fixed inset-0 overflow-hidden">
             <div className="absolute inset-0 overflow-hidden">
-              <div className="pointer-events-none fixed inset-y-0 flex max-w-[70%] pt-16">
+              <div className="pointer-events-none fixed inset-y-0 flex max-w-[65%] pt-16">
                 <Transition.Child
                   as={Fragment}
                   enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -65,13 +67,24 @@ export default function Slider() {
                       </div>
                     </Transition.Child>
                     <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
-                      <div className="px-4 sm:px-6">
-                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                          Panel title
-                        </Dialog.Title>
-                      </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        {/* Your content */}
+                        <Link
+                          href={'/dashboard'}
+                          onClick={() => setOpen(false)}
+                          className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-50"
+                        >
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-10 sm:w-10">
+                            <HomeIcon
+                              className="h-6 w-6 text-gray-900"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div className="ml-2">
+                            <p className="text-sm font-medium text-gray-900">
+                              {'Dashboard'}
+                            </p>
+                          </div>
+                        </Link>
                       </div>
                     </div>
                   </Dialog.Panel>
